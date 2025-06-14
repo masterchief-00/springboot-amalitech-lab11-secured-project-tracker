@@ -32,6 +32,10 @@ public class Task {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "developer_id", nullable = false)
+    private User developer;
+
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 

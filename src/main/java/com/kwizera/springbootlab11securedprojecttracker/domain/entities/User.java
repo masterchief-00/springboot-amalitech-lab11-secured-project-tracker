@@ -39,6 +39,9 @@ public class User {
     @JoinTable(name = "developer_skills", joinColumns = @JoinColumn(name = "developer_id"), inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private Set<Skill> skills = new HashSet<>();
 
+    @OneToMany(mappedBy = "developer")
+    private Set<Task> task = new HashSet<>();
+
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
