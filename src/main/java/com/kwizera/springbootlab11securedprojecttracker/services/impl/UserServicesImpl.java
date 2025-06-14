@@ -1,5 +1,6 @@
 package com.kwizera.springbootlab11securedprojecttracker.services.impl;
 
+import com.kwizera.springbootlab11securedprojecttracker.Exceptions.DuplicateRecordException;
 import com.kwizera.springbootlab11securedprojecttracker.domain.entities.User;
 import com.kwizera.springbootlab11securedprojecttracker.domain.enums.UserRole;
 import com.kwizera.springbootlab11securedprojecttracker.repositories.UserRepository;
@@ -15,10 +16,11 @@ public class UserServicesImpl implements UserServices {
     private final UserRepository userRepository;
 
     @Override
-    public User register(User user) {
+    public User register(User user) throws DuplicateRecordException {
         Optional<User> userFound = findUserByEmail(user.getEmail());
 
-        if (userFound.isPresent()) return null;
+        if (userFound.isPresent())
+            throw new DuplicateRecordException("User with email " + user.getEmail() + " already exists");
 
         user.setRole(UserRole.CONTRACTOR);
 
