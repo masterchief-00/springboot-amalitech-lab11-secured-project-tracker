@@ -1,0 +1,32 @@
+package com.kwizera.springbootlab11securedprojecttracker.services.impl;
+
+import com.kwizera.springbootlab11securedprojecttracker.domain.entities.User;
+import com.kwizera.springbootlab11securedprojecttracker.domain.enums.UserRole;
+import com.kwizera.springbootlab11securedprojecttracker.repositories.UserRepository;
+import com.kwizera.springbootlab11securedprojecttracker.services.UserServices;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@RequiredArgsConstructor
+@Service
+public class UserServicesImpl implements UserServices {
+    private final UserRepository userRepository;
+
+    @Override
+    public User register(User user) {
+        Optional<User> userFound = findUserByEmail(user.getEmail());
+
+        if (userFound.isPresent()) return null;
+
+        user.setRole(UserRole.CONTRACTOR);
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+}
