@@ -77,4 +77,10 @@ public class TaskServicesImpl implements TaskServices {
 
         return taskRepository.save(updatedTask);
     }
+
+    @Override
+    public void deleteTask(UUID taskId) {
+        Optional<Task> taskFound = taskRepository.findById(taskId);
+        taskFound.ifPresent(taskRepository::delete);
+    }
 }

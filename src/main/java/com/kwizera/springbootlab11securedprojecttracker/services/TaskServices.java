@@ -13,4 +13,6 @@ public interface TaskServices {
     Task updateTaskStatus(UUID taskId, TaskStatus newStatus) throws EntityNotFoundException;
 
     Task updateTask(UUID taskId, Task task) throws EntityNotFoundException;
+
+    void deleteTask(UUID taskId);
 }

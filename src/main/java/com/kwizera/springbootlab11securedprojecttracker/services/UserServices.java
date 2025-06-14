@@ -12,4 +12,6 @@ public interface UserServices {
     Optional<User> findUserByEmail(String email);
 
     Optional<User> findUserById(UUID id);
+
+    User updateUser(UUID userId, User user);
 }

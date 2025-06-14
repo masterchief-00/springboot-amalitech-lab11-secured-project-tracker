@@ -37,4 +37,9 @@ public class UserServicesImpl implements UserServices {
     public Optional<User> findUserById(UUID id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    public User updateUser(UUID userId, User user) {
+        return null;
+    }
 }
