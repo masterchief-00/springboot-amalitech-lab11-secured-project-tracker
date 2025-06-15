@@ -9,6 +9,7 @@ import com.kwizera.springbootlab11securedprojecttracker.domain.dtos.TaskDTO;
 import com.kwizera.springbootlab11securedprojecttracker.domain.entities.Project;
 import com.kwizera.springbootlab11securedprojecttracker.domain.entities.Task;
 import com.kwizera.springbootlab11securedprojecttracker.domain.mappers.EntityToDTO;
+import com.kwizera.springbootlab11securedprojecttracker.services.LogServices;
 import com.kwizera.springbootlab11securedprojecttracker.services.ProjectServices;
 import com.kwizera.springbootlab11securedprojecttracker.services.TaskServices;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -28,6 +30,7 @@ import java.util.UUID;
 public class ManagerController {
     private final ProjectServices projectServices;
     private final TaskServices taskServices;
+    private final LogServices logServices;
 
     @PostMapping
     public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody CreateProjectDTO projectDetails) throws DuplicateRecordException {
@@ -38,6 +41,16 @@ public class ManagerController {
                         .deadline(LocalDate.parse(projectDetails.deadline()))
                         .build(),
                 projectDetails.developers()
+        );
+
+        logServices.log(
+                "Create",
+                "Project",
+                createdProject.getId().toString(),
+                "Manager",
+                Map.of("name", createdProject.getName(),
+                        "description", createdProject.getDescription()
+                )
         );
 
         return new ResponseEntity<>(EntityToDTO.projectEntityToDTO(createdProject), HttpStatus.CREATED);
@@ -51,6 +64,17 @@ public class ManagerController {
                         .description(taskDetails.description())
                         .build()
         );
+
+        logServices.log(
+                "Create",
+                "Task",
+                task.getId().toString(),
+                "Manager",
+                Map.of("name", task.getTitle(),
+                        "description", task.getDescription()
+                )
+        );
+
         return new ResponseEntity<>(EntityToDTO.taskEntityToDTO(task), HttpStatus.CREATED);
     }
 }
