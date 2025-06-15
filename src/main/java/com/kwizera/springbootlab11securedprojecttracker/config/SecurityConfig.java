@@ -37,8 +37,8 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/h2-console/**", "/login/**", "/oauth2/**", "/api/auth/**", "/public", "/error", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/projects/**").hasAnyRole("MANAGER", "DEVELOPER", "CONTRACTOR")
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/projects/**").hasAnyRole("MANAGER", "DEVELOPER", "CONTRACTOR")
                         // All other requests need authentication
                         .anyRequest().authenticated()
                 )

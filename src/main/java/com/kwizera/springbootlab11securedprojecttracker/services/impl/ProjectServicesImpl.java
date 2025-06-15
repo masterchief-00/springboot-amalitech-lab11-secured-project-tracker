@@ -20,11 +20,20 @@ public class ProjectServicesImpl implements ProjectServices {
     private final UserServices userServices;
 
     @Override
-    public Project createProject(Project project) throws DuplicateRecordException {
+    public Project createProject(Project project, Set<UUID> developerIds) throws DuplicateRecordException {
         Optional<Project> projectFound = projectRepository.findByNameIgnoreCase(project.getName());
 
         if (projectFound.isPresent())
             throw new DuplicateRecordException("Project with name " + project.getName() + " already exists");
+
+        List<User> developers = developerIds.stream()
+                .map(userServices::findUserById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .filter(user -> user.getRole().equals(UserRole.DEVELOPER))
+                .toList();
+
+        project.setDevelopers(developers);
 
         return projectRepository.save(project);
     }

@@ -5,6 +5,7 @@ import com.kwizera.springbootlab11securedprojecttracker.Exceptions.EntityNotFoun
 import com.kwizera.springbootlab11securedprojecttracker.domain.entities.Skill;
 import com.kwizera.springbootlab11securedprojecttracker.domain.entities.User;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -18,5 +19,5 @@ public interface UserServices {
 
     Optional<User> findUserById(UUID id);
 
-    User updateUser(UUID userId, User user, Set<String> skillSet) throws EntityNotFoundException;
+    User updateUser(User user, List<String> skillSet) throws EntityNotFoundException;
 }
