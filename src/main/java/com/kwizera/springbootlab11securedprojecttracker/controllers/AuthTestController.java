@@ -12,12 +12,19 @@ import java.util.Map;
 @RestController
 @Tag(name = "Test Controller", description = "This controller tests if the user is being authenticated")
 public class AuthTestController {
-    @GetMapping("/me")
-    public Map<String, Object> getCurrentUser(@AuthenticationPrincipal OAuth2User user) {
+    @GetMapping("/public")
+    public Map<String, String> publicEndpoint() {
         return Map.of(
-                "email", user.getAttribute("email"),
-                "name", user.getAttribute("name"),
-                "jwt", user.getAttribute("jwt")
+                "message", "This is a public endpoint",
+                "timestamp", String.valueOf(System.currentTimeMillis())
+        );
+    }
+
+    @GetMapping("/protected")
+    public Map<String, String> protectedEndpoint() {
+        return Map.of(
+                "message", "This is a protected endpoint - you are authenticated!",
+                "timestamp", String.valueOf(System.currentTimeMillis())
         );
     }
 }
