@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface ProjectServices {
-    Project createProject(Project project) throws DuplicateRecordException;
+    Project createProject(Project project, Set<UUID> developerIds) throws DuplicateRecordException;
 
     Project updateProject(UUID projectId, Project project, Set<UUID> developerIds) throws EntityNotFoundException;
 

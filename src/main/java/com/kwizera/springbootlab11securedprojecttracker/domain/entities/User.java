@@ -41,7 +41,7 @@ public class User {
     private Set<Skill> skills = new HashSet<>();
 
     @OneToMany(mappedBy = "developer")
-    private Set<Task> task = new HashSet<>();
+    private Set<Task> tasks = new HashSet<>();
 
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;

@@ -11,10 +11,7 @@ import com.kwizera.springbootlab11securedprojecttracker.services.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -59,21 +56,14 @@ public class UserServicesImpl implements UserServices {
     }
 
     @Override
-    public User updateUser(UUID userId, User user, Set<String> skillSet) throws EntityNotFoundException {
-        Optional<User> userFound = userRepository.findById(userId);
-        if (userFound.isEmpty()) throw new EntityNotFoundException("User not found");
-
+    public User updateUser(User user, List<String> skillSet) throws EntityNotFoundException {
         Set<Skill> userSkills = skillSet.stream()
                 .map(skillServices::findOrCreateSkill)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        User updatedUser = userFound.get();
-        updatedUser.setFirstName(user.getFirstName());
-        updatedUser.setLastName(user.getLastName());
-        updatedUser.setSkills(userSkills);
-        updatedUser.setRole(user.getRole());
+        user.setSkills(userSkills);
 
-        return userRepository.save(updatedUser);
+        return userRepository.save(user);
     }
 }

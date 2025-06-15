@@ -14,6 +14,7 @@ import com.kwizera.springbootlab11securedprojecttracker.services.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,17 +26,27 @@ public class TaskServicesImpl implements TaskServices {
     private final UserServices userServices;
 
     @Override
+    public List<Task> findAll(UUID userId) {
+        return taskRepository.findByDeveloperId(userId);
+    }
+
+    @Override
     public Task createTask(UUID projectId, Task task) throws DuplicateRecordException, EntityNotFoundException {
         Optional<Task> taskFound = taskRepository.findByTitleIgnoreCaseAndProjectId(task.getTitle(), projectId);
 
         if (taskFound.isPresent())
             throw new DuplicateRecordException("A task with the same name in the same project already exists");
 
-        Optional<Project> projectFound = projectServices.findProjectById(projectId);
+        Task currentTask = taskFound.get();
 
-        if (projectFound.isPresent()) {
+        Optional<Project> projectFound = projectServices.findProjectById(projectId);
+        Optional<User> developerFound = userServices.findUserById(currentTask.getDeveloper().getId());
+
+        if (projectFound.isPresent() && developerFound.isPresent()) {
+            User developer = developerFound.get();
             Project project = projectFound.get();
             task.setProject(project);
+            task.setDeveloper(developer);
             return taskRepository.save(task);
         } else {
             throw new EntityNotFoundException("Project not found");
