@@ -34,7 +34,7 @@ public class EntityToDTO {
         return ProjectDTO.builder()
                 .name(project.getName())
                 .description(project.getDescription())
-                .developer(project.getDevelopers())
+                .developer(project.getDevelopers().stream().map(EntityToDTO::userEntityToDTO).toList())
                 .tasks(project.getTasks().stream().map(EntityToDTO::taskEntityToDTO).toList())
                 .build();
     }

@@ -6,6 +6,7 @@ import com.kwizera.springbootlab11securedprojecttracker.domain.dtos.UserUpdateRe
 import com.kwizera.springbootlab11securedprojecttracker.domain.entities.User;
 import com.kwizera.springbootlab11securedprojecttracker.domain.mappers.EntityToDTO;
 import com.kwizera.springbootlab11securedprojecttracker.services.UserServices;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
+@Tag(name = "Admin Controller", description = "This controller exposes all endpoints involved in admin operations")
 public class AdminController {
 
     private final UserServices userServices;

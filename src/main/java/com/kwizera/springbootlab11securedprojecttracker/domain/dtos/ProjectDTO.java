@@ -9,7 +9,7 @@ import java.util.List;
 public record ProjectDTO(
         String name,
         String description,
-        List<User> developer,
+        List<UserDTO> developer,
         List<TaskDTO> tasks
 ) {
 }
