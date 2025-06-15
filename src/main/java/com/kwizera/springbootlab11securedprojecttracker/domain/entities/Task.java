@@ -26,6 +26,7 @@ public class Task {
     private String description;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
