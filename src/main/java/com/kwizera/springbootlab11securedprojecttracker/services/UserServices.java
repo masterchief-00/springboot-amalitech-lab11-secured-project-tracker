@@ -12,6 +12,8 @@ import java.util.UUID;
 public interface UserServices {
     User register(User user) throws DuplicateRecordException;
 
+    User findOrCreateUser(String email, User user);
+
     Optional<User> findUserByEmail(String email);
 
     Optional<User> findUserById(UUID id);

@@ -29,6 +29,7 @@ public class User {
     private String email;
 
     @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @ManyToOne(fetch = FetchType.LAZY)

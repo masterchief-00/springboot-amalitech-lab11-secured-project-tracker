@@ -36,6 +36,19 @@ public class UserServicesImpl implements UserServices {
     }
 
     @Override
+    public User findOrCreateUser(String email, User user) {
+        Optional<User> userFound = findUserByEmail(user.getEmail());
+
+        if (userFound.isEmpty()) {
+            user.setRole(UserRole.CONTRACTOR);
+
+            return userRepository.save(user);
+        }
+
+        return userFound.get();
+    }
+
+    @Override
     public Optional<User> findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
